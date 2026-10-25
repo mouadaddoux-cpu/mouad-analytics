@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data format — MOUAD</title>
+<meta name="description" content="The CSV columns MOUAD reads, the aliases it accepts, and how each KPI is calculated.">
+<meta name="theme-color" content="#0d0b17">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../css/styles.css">
+<style>
+  .doc { max-width: 780px; padding: 56px 0 80px; }
+  .doc h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); margin-bottom: 14px; }
+  .doc h2 { font-size: 1.25rem; margin: 42px 0 14px; }
+  .doc p, .doc li { color: var(--muted); font-size: 15px; }
+  .doc p + p { margin-top: 12px; }
+  .doc ul { margin: 12px 0 0; padding-left: 20px; }
+  .doc li { margin-bottom: 8px; }
+  .doc code { font-family: var(--mono); font-size: 13px; background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 5px; color: var(--text); }
+  .doc pre { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 16px; overflow-x: auto; margin: 16px 0 0; }
+  .doc pre code { background: none; padding: 0; font-size: 12.5px; line-height: 1.7; }
+  .doc table { margin-top: 16px; min-width: 0; font-size: 14px; }
+  .doc thead th, .doc tbody td { text-align: left; }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="logo" href="../index.html" aria-label="MOUAD home">
+      <span class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none"><g fill="#fff"><rect x="3" y="9" width="4" height="12" rx="1.2"/><rect x="10" y="4" width="4" height="17" rx="1.2"/><rect x="17" y="13" width="4" height="8" rx="1.2"/></g></svg>
+      </span>
+      <span class="logo-word">Mouad</span>
+    </a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="../index.html">Home</a>
+      <a href="../dashboard.html" class="btn btn-ghost btn-sm">Open dashboard</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap doc">
+  <span class="kicker">Reference</span>
+  <h1>Data format</h1>
+  <p>MOUAD reads a single flat CSV — one row per campaign per period. The first row must be a header row; the delimiter must be a comma. Quoted fields, escaped quotes (<code>""</code>), a UTF-8 BOM and CRLF line endings are all handled.</p>
+
+  <h2>Required columns</h2>
+  <table>
+    <thead><tr><th>Column</th><th>Accepted aliases</th><th>Type</th></tr></thead>
+    <tbody>
+      <tr><td><code>campaign</code></td><td>campaign_name, name, ad set, ad group</td><td>text</td></tr>
+      <tr><td><code>impressions</code></td><td>impression, impr, views</td><td>integer</td></tr>
+      <tr><td><code>clicks</code></td><td>click, link clicks</td><td>integer</td></tr>
+      <tr><td><code>spend</code></td><td>cost, amount spent, budget</td><td>decimal, currency symbol optional</td></tr>
+      <tr><td><code>conversions</code></td><td>conv, results, purchases, leads, orders</td><td>integer</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Optional columns</h2>
+  <ul>
+    <li><code>channel</code> — network or platform name (Meta, Google, LinkedIn…). Shown under the campaign name.</li>
+    <li><code>week</code> — any date or period label. Used as the x-axis of the trend chart; rows are sorted by date when the labels parse as dates.</li>
+  </ul>
+
+  <h2>Accepted number formats</h2>
+  <p>Cells are cleaned before they are summed, so real exports can be pasted in unchanged:</p>
+  <pre><code>1204      $1,204.50     €980       1 204
+12.5%     (300)         "2,480"    1.234,56</code></pre>
+  <p>A trailing <code>%</code> divides by 100, parentheses mark a negative value, and both <code>1,234.56</code> and <code>1.234,56</code> styles are detected.</p>
+
+  <h2>Example</h2>
+  <pre><code>campaign,channel,week,impressions,clicks,spend,conversions
+Retargeting — Hot Leads,Meta,2026-09-28,3417,127,30.05,12
+Search — Brand Core,Google,2026-09-28,5808,260,67.12,22
+Creator Spark,TikTok,2026-09-28,20500,286,58.45,6</code></pre>
+  <p>A ready-made 24-row file ships with the project: <a href="../sample-campaigns.csv"><code>sample-campaigns.csv</code></a>.</p>
+
+  <h2>How each KPI is calculated</h2>
+  <table>
+    <thead><tr><th>KPI</th><th>Formula</th></tr></thead>
+    <tbody>
+      <tr><td>Spend</td><td>Σ spend</td></tr>
+      <tr><td>Conversions</td><td>Σ conversions</td></tr>
+      <tr><td>CTR</td><td>Σ clicks ÷ Σ impressions × 100</td></tr>
+      <tr><td>CPC</td><td>Σ spend ÷ Σ clicks</td></tr>
+      <tr><td>Conv. rate</td><td>Σ conversions ÷ Σ clicks × 100</td></tr>
+    </tbody>
+  </table>
+  <p>Rates are recomputed from the summed totals rather than averaged across rows, so a tiny campaign cannot distort the account figure.</p>
+
+  <h2>What counts as a winner</h2>
+  <p>A campaign is flagged when both conditions hold on its own totals:</p>
+  <ul>
+    <li>its CTR is at least <strong>1.5×</strong> the account CTR, and</li>
+    <li>it has at least <strong>100 clicks</strong>.</li>
+  </ul>
+  <p>The click floor exists so that a four-click fluke cannot be presented as a campaign worth scaling. Both thresholds live at the top of <code>js/app.js</code>.</p>
+
+  <h2>Privacy</h2>
+  <p>Parsing, aggregation and charting all run in the tab. The file is read with <code>FileReader</code>, never posted anywhere, and nothing is persisted between sessions. The only network request the app makes is the one that loads the bundled sample CSV — and even that has an embedded fallback, so the page works fully offline.</p>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <span>© <span id="year">2026</span> MOUAD</span>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="../index.html">Home</a>
+      <a href="../dashboard.html">Dashboard</a>
+      <a href="mailto:mousaddadoux@gmail.com">Email</a>
+    </nav>
+  </div>
+</footer>
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
