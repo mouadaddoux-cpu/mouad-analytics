@@ -1,0 +1,5 @@
+# MOUAD ADDOU — freelance digital marketer
+User-agent: *
+Allow: /
+
+Sitemap: https://mouadaddoux-cpu.github.io/mouad-analytics/sitemap.xml
