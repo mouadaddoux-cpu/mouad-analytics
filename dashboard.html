@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard — MOUAD</title>
+<meta name="description" content="Drop a campaign CSV and read spend, CTR, CPC, conversions and flagged winners. All local, no backend.">
+<meta name="theme-color" content="#0d0b17">
+<meta property="og:title" content="MOUAD dashboard">
+<meta property="og:image" content="assets/social-preview.png">
+<meta property="og:url" content="https://mouadaddoux-cpu.github.io/mouad-analytics/dashboard.html">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="logo" href="index.html" aria-label="MOUAD home">
+      <span class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none"><g fill="#fff"><rect x="3" y="9" width="4" height="12" rx="1.2"/><rect x="10" y="4" width="4" height="17" rx="1.2"/><rect x="17" y="13" width="4" height="8" rx="1.2"/></g></svg>
+      </span>
+      <span class="logo-word">Mouad</span>
+    </a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="index.html">Home</a>
+      <a href="docs/data-format.html">Data format</a>
+      <a href="mailto:mousaddadoux@gmail.com" class="btn btn-ghost btn-sm">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="app">
+
+  <div class="app-head">
+    <div>
+      <h1>Campaign dashboard</h1>
+      <p>Drop a CSV with campaign, impressions, clicks, spend and conversions. Nothing is uploaded anywhere.</p>
+    </div>
+    <div class="app-actions">
+      <button class="btn btn-ghost btn-sm" id="btn-sample" type="button">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+        Load sample data
+      </button>
+      <button class="btn btn-ghost btn-sm" id="btn-export" type="button" disabled>Download summary</button>
+      <button class="btn btn-ghost btn-sm" id="btn-reset" type="button" disabled>Reset</button>
+    </div>
+  </div>
+
+  <div class="notice" id="notice-error" role="alert"></div>
+  <div class="notice" id="notice-ok" role="status"></div>
+
+  <div class="dz-wrap" id="dz-wrap">
+    <label class="dropzone" id="dropzone" for="file-input" tabindex="0">
+      <strong>Drop a CSV here, or click to choose a file</strong>
+      <span>Required columns: <code>campaign</code>, <code>impressions</code>, <code>clicks</code>, <code>spend</code>, <code>conversions</code>
+        · optional: <code>channel</code>, <code>week</code></span>
+      <input type="file" id="file-input" accept=".csv,text/csv,text/plain" class="sr-only">
+    </label>
+  </div>
+
+  <!-- KPI row -->
+  <section class="kpis" aria-label="Key metrics">
+    <div class="kpi">
+      <div class="kpi-label">Spend</div>
+      <div class="kpi-value is-empty" id="kpi-spend" data-kpi="spend">—</div>
+      <div class="kpi-foot" id="kpi-spend-foot">total media cost</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Conversions</div>
+      <div class="kpi-value is-empty" id="kpi-conversions" data-kpi="conversions">—</div>
+      <div class="kpi-foot" id="kpi-conversions-foot">attributed</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">CTR</div>
+      <div class="kpi-value is-empty" id="kpi-ctr" data-kpi="ctr">—</div>
+      <div class="kpi-foot" id="kpi-ctr-foot">clicks ÷ impressions</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">CPC</div>
+      <div class="kpi-value is-empty" id="kpi-cpc" data-kpi="cpc">—</div>
+      <div class="kpi-foot" id="kpi-cpc-foot">spend ÷ clicks</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Conv. rate</div>
+      <div class="kpi-value is-empty" id="kpi-cvr" data-kpi="cvr">—</div>
+      <div class="kpi-foot" id="kpi-cvr-foot">conversions ÷ clicks</div>
+    </div>
+  </section>
+
+  <div class="strip" id="strip" hidden>
+    <span>Impressions <b id="stat-impressions">—</b></span>
+    <span>Clicks <b id="stat-clicks">—</b></span>
+    <span>Campaigns <b id="stat-campaigns">—</b></span>
+    <span>Weeks <b id="stat-weeks">—</b></span>
+    <span>Rows parsed <b id="stat-rows">—</b></span>
+    <span id="stat-source" style="color:var(--dim)"></span>
+  </div>
+
+  <section class="panel" id="chart-panel" hidden>
+    <div class="panel-head">
+      <div>
+        <h2>Spend vs CTR</h2>
+        <p>Weekly budget in bars (left axis) against click-through rate in % (right axis).</p>
+      </div>
+      <div class="legend" aria-hidden="true">
+        <span><i style="background:linear-gradient(135deg,#fc0a7e,#602bb6)"></i>Spend</span>
+        <span><i style="background:#2ee6a8"></i>CTR</span>
+      </div>
+    </div>
+    <div class="chart-box">
+      <canvas id="trend-chart" aria-label="Spend and CTR trend by week" role="img"></canvas>
+    </div>
+  </section>
+
+  <section class="panel" id="winners-panel" hidden>
+    <div class="panel-head">
+      <div>
+        <h2>Flagged winners</h2>
+        <p>CTR at least 1.5× the account average, with 100+ clicks to make it mean something.</p>
+      </div>
+      <span class="badge badge-win" id="winners-count">0</span>
+    </div>
+    <div class="winners" id="winners-list"></div>
+    <p class="empty-hint" id="winners-empty" hidden>No campaign clears the threshold on this dataset.</p>
+  </section>
+
+  <section class="panel" id="table-panel" hidden>
+    <div class="panel-head">
+      <div>
+        <h2>Campaigns</h2>
+        <p id="table-sub">Sorted by spend. Winners are marked on the left edge.</p>
+      </div>
+      <div class="seg" role="tablist" aria-label="Table view">
+        <button class="seg-btn is-active" id="tab-agg" role="tab" aria-selected="true" type="button">Campaigns</button>
+        <button class="seg-btn" id="tab-raw" role="tab" aria-selected="false" type="button">Raw rows</button>
+      </div>
+    </div>
+
+    <div id="view-agg">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Campaign</th>
+              <th scope="col">Impressions</th>
+              <th scope="col">Clicks</th>
+              <th scope="col">Spend</th>
+              <th scope="col">CTR</th>
+              <th scope="col">CPC</th>
+              <th scope="col">Conv.</th>
+              <th scope="col">Conv. rate</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="view-raw" hidden>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Campaign</th>
+              <th scope="col">Channel</th>
+              <th scope="col">Week</th>
+              <th scope="col">Impressions</th>
+              <th scope="col">Clicks</th>
+              <th scope="col">Spend</th>
+              <th scope="col">Conversions</th>
+            </tr>
+          </thead>
+          <tbody id="raw-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="empty-state" id="empty-state">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M3 15l4-4 3 3 4-6 7 8"/><path d="M3 20h18"/><circle cx="7" cy="6" r="2"/>
+    </svg>
+    <p><strong>No data loaded yet.</strong><br>Drop a CSV above, or press “Load sample data” to see the dashboard with 24 sample rows.</p>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <span>© <span id="year">2026</span> MOUAD · <a href="index.html">Back to home</a></span>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="docs/data-format.html">Data format</a>
+      <a href="sample-campaigns.csv">Sample CSV</a>
+      <a href="mailto:mousaddadoux@gmail.com">Email</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="js/vendor/chart.umd.js"></script>
+<script src="js/sample-data.js"></script>
+<script src="js/app.js"></script>
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
