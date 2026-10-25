@@ -3,173 +3,333 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MOUAD — Campaign analytics in the browser</title>
-<meta name="description" content="Drop a CSV, get KPIs, spend-vs-CTR trends and flagged winners. Vanilla JS, no backend, nothing leaves your machine.">
+<title>MOUAD ADDOU — Freelance digital marketer · paid media & performance</title>
+<meta name="description" content="Freelance digital marketer in Casablanca. Paid media on Meta, Google, TikTok and LinkedIn — plus the tracking and reporting that make the numbers trustworthy.">
 <meta name="theme-color" content="#0d0b17">
-<meta property="og:title" content="MOUAD — Campaign analytics in the browser">
-<meta property="og:description" content="Drop a CSV, get KPIs, spend-vs-CTR trends and flagged winners. Vanilla JS, no backend.">
+<meta property="og:title" content="MOUAD ADDOU — Freelance digital marketer">
+<meta property="og:description" content="Paid media, funnels and reporting. I turn ad spend into numbers you can act on.">
 <meta property="og:type" content="website">
-<meta property="og:image" content="assets/social-preview.png">
-<meta property="og:url" content="https://mouadaddoux-cpu.github.io/mouad-analytics/">
+<meta property="og:image" content="assets/og.png">
+<meta property="og:url" content="{{SITE}}">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/portfolio.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "MOUAD ADDOU",
+  "jobTitle": "Freelance digital marketer",
+  "email": "mailto:{{EMAIL}}",
+  "url": "{{SITE}}",
+  "address": { "@type": "PostalAddress", "addressLocality": "Casablanca", "addressCountry": "MA" },
+  "knowsAbout": ["paid media", "performance marketing", "Google Ads", "Meta Ads", "conversion tracking", "marketing reporting"]
+}
+</script>
 </head>
 <body>
 
 <header class="nav">
   <div class="wrap nav-inner">
-    <a class="logo" href="index.html" aria-label="MOUAD home">
+    <a class="logo" href="index.html" aria-label="MOUAD ADDOU — home">
       <span class="logo-mark" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none"><g fill="#fff"><rect x="3" y="9" width="4" height="12" rx="1.2"/><rect x="10" y="4" width="4" height="17" rx="1.2"/><rect x="17" y="13" width="4" height="8" rx="1.2"/></g></svg>
       </span>
-      <span class="logo-word">Mouad</span>
+      <span class="logo-word">Mouad Addou</span>
     </a>
     <nav class="nav-links" aria-label="Main">
-      <a href="#how">How it works</a>
-      <a href="#features">Features</a>
-      <a href="docs/data-format.html">Data format</a>
-      <a href="dashboard.html" class="btn btn-ghost btn-sm">Open dashboard</a>
+      <a href="#services">Services</a>
+      <a href="#work">Work</a>
+      <a href="#process">Process</a>
+      <a href="dashboard.html">Live demo</a>
+      <a href="#contact" class="btn btn-primary btn-sm">Work with me</a>
     </nav>
   </div>
 </header>
 
 <main>
-  <section class="wrap hero">
-    <span class="eyebrow"><i class="dot"></i>No backend · Runs locally</span>
-    <h1>Campaign analytics that never <span class="grad">leaves your browser</span>.</h1>
-    <p class="hero-sub">
-      Drop a CSV exported from Meta, Google, LinkedIn or TikTok. MOUAD turns it into the
-      numbers that matter — spend, CTR, CPC, conversion rate — plus a trend chart and the
-      campaigns worth scaling. No upload, no account, no server.
-    </p>
-    <div class="hero-cta">
-      <a class="btn btn-primary" href="dashboard.html">
-        Open the dashboard
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </a>
-      <a class="btn btn-ghost" href="dashboard.html#sample">See it with sample data</a>
-    </div>
-    <div class="hero-meta">
-      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>~0 KB uploaded</span>
-      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Vanilla JS, one page</span>
-      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Works offline &amp; on GitHub Pages</span>
-    </div>
-  </section>
 
-  <section class="wrap" id="preview" style="padding-bottom:8px">
-    <div class="preview">
-      <div class="preview-bar" aria-hidden="true">
-        <i></i><i></i><i></i>
-        <span>mouad — dashboard.html</span>
-      </div>
-      <a href="dashboard.html" aria-label="Open the dashboard">
-        <img src="assets/screenshot-dashboard.png" width="1280" height="760"
-             alt="MOUAD dashboard showing five KPI cards, a spend-versus-CTR trend chart and a campaign table with flagged winners">
-      </a>
-    </div>
-  </section>
-
-  <section class="wrap section" id="how">
-    <div class="section-head">
-      <span class="kicker">How it works</span>
-      <h2>Three steps. No sign-up screen in sight.</h2>
-      <p>Everything happens in the tab you already have open — the file never leaves the machine.</p>
-    </div>
-    <div class="steps">
-      <div class="step">
-        <h3>Export your CSV</h3>
-        <p>Any report with campaign, impressions, clicks, spend and conversions. Column names are matched loosely, currencies and thousands separators are handled.</p>
-      </div>
-      <div class="step">
-        <h3>Drop it on the page</h3>
-        <p>Drag the file onto the dashboard or pick one from disk. Parsing is local, so there is no upload spinner and no API quota.</p>
-      </div>
-      <div class="step">
-        <h3>Read the verdict</h3>
-        <p>Five headline KPIs, a spend-vs-CTR trend line and the campaigns that are outperforming the account average — flagged automatically.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="wrap section" id="features">
-    <div class="section-head">
-      <span class="kicker">Features</span>
-      <h2>Small surface, sharp edge.</h2>
-      <p>Built to answer one question fast: where is the money working, and where is it idling?</p>
-    </div>
-    <div class="grid">
-      <article class="card">
-        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg></div>
-        <h3>KPIs in one glance</h3>
-        <p>Spend, conversions, CTR, CPC and conversion rate — with impressions and click volume kept one line below.</p>
-      </article>
-      <article class="card">
-        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="12" width="4" height="9" rx="1"/><rect x="10" y="6" width="4" height="15" rx="1"/><rect x="17" y="9" width="4" height="12" rx="1"/></svg></div>
-        <h3>Spend vs CTR trend</h3>
-        <p>Two axes, one chart. Bars show where the budget went per week; the line shows whether the traffic quality followed.</p>
-      </article>
-      <article class="card">
-        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.6 5.8 6.4.7-4.7 4.3 1.3 6.2L12 17l-5.6 3 1.3-6.2L3 9.5l6.4-.7z"/></svg></div>
-        <h3>Flagged winners</h3>
-        <p>A campaign is a winner when its CTR beats 1.5&times; the account average with enough clicks to trust it. No manual sorting.</p>
-      </article>
-      <article class="card">
-        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v5c0 5-3.4 8.2-8 9-4.6-.8-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></div>
-        <h3>Nothing leaves the page</h3>
-        <p>No fetch to a server, no analytics script, no cookie banner. The only network request is the page itself.</p>
-      </article>
-      <article class="card">
-        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg></div>
-        <h3>Forgiving CSV parsing</h3>
-        <p>Quoted fields, <code>$1,204.50</code>, percentages, BOMs, CRLF — all handled before anything is summed.</p>
-      </article>
-      <article class="card">
-        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 2.5 15.4 0 18-2.5-2.6-2.5-15.4 0-18z"/></svg></div>
-        <h3>Deploy anywhere static</h3>
-        <p>Plain HTML, CSS and JS. GitHub Pages, Netlify, a USB stick — same result, because there is no server to configure.</p>
-      </article>
-    </div>
-  </section>
-
-  <section class="wrap section" id="demo">
-    <div class="section-head">
-      <span class="kicker">Walkthrough</span>
-      <h2>A 40-second tour.</h2>
-    </div>
-    <div class="preview">
-      <div class="preview-bar" aria-hidden="true"><i></i><i></i><i></i><span>mouad-intro.mp4</span></div>
-      <video controls playsinline preload="metadata" poster="assets/video/mouad-intro-poster.jpg">
-        <source src="assets/video/mouad-intro.mp4" type="video/mp4">
-      </video>
-    </div>
-  </section>
-
-  <section class="wrap section">
-    <div class="panel" style="text-align:center;padding:44px 28px">
-      <h2 style="font-size:clamp(1.4rem,3vw,2rem)">Try it with 24 rows of sample data.</h2>
-      <p style="color:var(--muted);margin:12px auto 26px;max-width:52ch">
-        One click loads a six-campaign, four-week dataset so you can see every panel populated before you touch your own export.
+  <!-- ===================== hero ===================== -->
+  <section class="wrap p-hero">
+    <div>
+      <span class="eyebrow"><i class="dot"></i>Available for projects · Casablanca</span>
+      <h1>I turn ad spend into <span class="grad">numbers you can act on</span>.</h1>
+      <p class="lede">
+        I’m MOUAD — a freelance digital marketer working on paid media, funnels and reporting.
+        I set up campaigns that answer to a target cost per result, fix the tracking nobody wants
+        to touch, and hand back a weekly read that fits on one screen.
       </p>
-      <a class="btn btn-primary" href="dashboard.html#sample">Load the sample</a>
+      <div class="p-cta">
+        <a class="btn btn-primary" href="mailto:{{EMAIL}}?subject=Project%20enquiry">
+          Start a project
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="dashboard.html">See the live dashboard</a>
+      </div>
+      <div class="p-facts">
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Meta · Google · TikTok · LinkedIn</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Tracking set up before scaling</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Reports in English, French or Arabic</span>
+      </div>
+    </div>
+
+    <div class="p-portrait">
+      <img src="assets/portrait.png" width="1024" height="1024" alt="Illustrated portrait of MOUAD ADDOU">
+      <div class="p-portrait-tag">
+        <div>
+          <b>MOUAD ADDOU</b>
+          <span>Freelance digital marketer</span>
+        </div>
+        <span class="dot-live" aria-hidden="true"></span>
+      </div>
     </div>
   </section>
+
+  <div class="wrap">
+    <div class="channels" aria-label="Channels I work with">
+      <span>Meta Ads</span>
+      <span>Google Ads</span>
+      <span>TikTok Ads</span>
+      <span>LinkedIn Ads</span>
+      <span>GA4</span>
+      <span>Tag Manager</span>
+      <span>Looker Studio</span>
+      <span>Sheets</span>
+    </div>
+  </div>
+
+  <!-- ===================== services ===================== -->
+  <section class="wrap section" id="services">
+    <div class="section-head">
+      <span class="kicker">Services</span>
+      <h2>Four things I do, done properly.</h2>
+      <p>Most accounts don’t need more channels — they need the four basics in this order. I can take one of them or all four.</p>
+    </div>
+
+    <div class="svc">
+      <article class="svc-card">
+        <div class="svc-num">01</div>
+        <h3>Paid media</h3>
+        <p>Campaign structure, budgets, bidding and creative testing on the platforms that fit the offer — not every platform that exists.</p>
+        <ul class="svc-list">
+          <li>Account &amp; campaign structure</li>
+          <li>Budget pacing to a target cost per result</li>
+          <li>Creative and audience testing cycles</li>
+        </ul>
+      </article>
+
+      <article class="svc-card">
+        <div class="svc-num">02</div>
+        <h3>Audits &amp; tracking</h3>
+        <p>The unglamorous work that decides whether any of the reporting can be believed: events, attribution windows, UTM discipline.</p>
+        <ul class="svc-list">
+          <li>Full account audit with priorities</li>
+          <li>Pixel / conversion event verification</li>
+          <li>UTM and naming conventions</li>
+        </ul>
+      </article>
+
+      <article class="svc-card">
+        <div class="svc-num">03</div>
+        <h3>Funnels &amp; landing pages</h3>
+        <p>Before buying more traffic, find the leak. Offer, page, form, follow-up — in that order.</p>
+        <ul class="svc-list">
+          <li>Landing page structure &amp; copy direction</li>
+          <li>Form and lead-flow friction review</li>
+          <li>Message match with the ad</li>
+        </ul>
+      </article>
+
+      <article class="svc-card">
+        <div class="svc-num">04</div>
+        <h3>Reporting</h3>
+        <p>A weekly read that fits on one screen, in the language your team actually speaks — plus a dashboard you can open without a login.</p>
+        <ul class="svc-list">
+          <li>Weekly / monthly performance read</li>
+          <li>Looker Studio or spreadsheet build</li>
+          <li>MOUAD dashboard for CSV exports</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===================== work ===================== -->
+  <section class="wrap section" id="work">
+    <div class="section-head">
+      <span class="kicker">Selected work</span>
+      <h2>I built the reporting tool I kept wishing clients had.</h2>
+      <p>MOUAD is my own product: a campaign analytics dashboard that runs entirely in the browser. It is also the clearest example of how I work — small scope, honest numbers, nothing to install.</p>
+    </div>
+
+    <article class="work-card">
+      <div class="work-body">
+        <h3>MOUAD — campaign analytics in the browser</h3>
+        <p>
+          Drop a CSV exported from Meta, Google, TikTok or LinkedIn and get the five numbers that
+          matter — spend, conversions, CTR, CPC, conversion rate — plus a spend-vs-CTR trend and the
+          campaigns worth scaling. No account, no upload: the file is parsed locally.
+        </p>
+        <div class="work-meta">
+          <span>Product</span>
+          <span>Vanilla JS</span>
+          <span>Chart.js</span>
+          <span>No backend</span>
+        </div>
+        <div class="work-links">
+          <a class="btn btn-primary btn-sm" href="dashboard.html">Open the dashboard</a>
+          <a class="btn btn-ghost btn-sm" href="docs/data-format.html">What it reads</a>
+        </div>
+        <p class="note-inline">
+          The demo runs on a bundled 24-row sample dataset, clearly labelled as such in the interface.
+        </p>
+      </div>
+      <div class="work-shot">
+        <img src="assets/screenshot-dashboard.png" width="1280" height="760" alt="MOUAD dashboard: KPI cards, spend versus CTR trend and a campaign table with flagged winners">
+      </div>
+    </article>
+
+    <p class="note-inline">
+      More detail on request — account structures, creative test logs and reporting packs from past work.
+      <a href="mailto:{{EMAIL}}?subject=Work%20samples" style="color:var(--accent)">Ask for samples</a>.
+    </p>
+  </section>
+
+  <!-- ===================== process ===================== -->
+  <section class="wrap section" id="process">
+    <div class="section-head">
+      <span class="kicker">Process</span>
+      <h2>How an engagement runs.</h2>
+      <p>Same order every time. Tracking before scaling, and a report you could take to a finance meeting.</p>
+    </div>
+
+    <div class="process">
+      <div class="process-step">
+        <div>
+          <h3>Diagnose</h3>
+          <p>Access, existing campaigns and analytics. I map what is being measured, what is missing and what the numbers currently can’t tell us. You get an audit with a short priority list.</p>
+        </div>
+      </div>
+      <div class="process-step">
+        <div>
+          <h3>Fix the foundation</h3>
+          <p>Conversion events, naming conventions, attribution windows, the landing page. Nothing gets scaled on top of tracking that lies.</p>
+        </div>
+      </div>
+      <div class="process-step">
+        <div>
+          <h3>Build &amp; test</h3>
+          <p>Campaign structure, budget split, creative and audience tests. Small, readable changes with a hypothesis behind each one.</p>
+        </div>
+      </div>
+      <div class="process-step">
+        <div>
+          <h3>Report &amp; iterate</h3>
+          <p>A weekly one-screen read: what moved, why, and what changes next. You keep the dashboard — the account is never a black box.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== about ===================== -->
+  <section class="wrap section" id="about">
+    <div class="about-grid">
+      <div>
+        <span class="kicker">About</span>
+        <h2 style="font-size:clamp(1.5rem,3.2vw,2.1rem);margin-bottom:18px">Freelance, on purpose.</h2>
+        <p>
+          I work directly with the people who own the budget, which means no account-manager layer
+          between the report and the decision. Small engagements, clear scope, and numbers I am happy
+          to defend line by line.
+        </p>
+        <p>
+          I’m based in Casablanca and work remotely with brands and agencies across MENA and Europe.
+          Most of my work is paid media and reporting — and I build the small tools that make both
+          less painful, like the dashboard above.
+        </p>
+        <p>
+          If your reporting feels like guesswork, or the ad account has grown faster than its
+          structure, that is usually the point to bring someone in.
+        </p>
+      </div>
+
+      <aside class="about-card">
+        <dl>
+          <div>
+            <dt>Role</dt>
+            <dd>Freelance digital marketer</dd>
+          </div>
+          <div>
+            <dt>Focus</dt>
+            <dd>Paid media · funnels · reporting</dd>
+          </div>
+          <div>
+            <dt>Based in</dt>
+            <dd>Casablanca, Morocco — remote</dd>
+          </div>
+          <div>
+            <dt>Languages</dt>
+            <dd>Arabic · French · English</dd>
+          </div>
+          <div>
+            <dt>Availability</dt>
+            <dd>Open for new projects</dd>
+          </div>
+          <div>
+            <dt>Contact</dt>
+            <dd><a href="mailto:{{EMAIL}}">{{EMAIL}}</a></dd>
+          </div>
+        </dl>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ===================== contact ===================== -->
+  <section class="wrap section" id="contact">
+    <div class="contact">
+      <span class="eyebrow" style="margin-bottom:18px"><i class="dot"></i>Open for projects</span>
+      <h2>Tell me what you’re trying to grow.</h2>
+      <p>
+        Send the offer, the channels you’re already on and the number you’re trying to hit.
+        I’ll reply with whether I can help, what I’d look at first, and what it would cost.
+      </p>
+      <div class="contact-actions">
+        <a class="btn btn-primary" href="mailto:{{EMAIL}}?subject=Project%20enquiry">Email me</a>
+        <a class="btn btn-ghost" href="dashboard.html">Try the dashboard first</a>
+      </div>
+      <div class="contact-meta">
+        <span>{{EMAIL}}</span>
+        <span>Casablanca, Morocco</span>
+        <span>Replies within one working day</span>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <footer class="footer">
   <div class="wrap footer-inner">
-    <span>© <span id="year">2026</span> MOUAD · Built by <a href="https://mouadaddoux-cpu.github.io/mouad-analytics/">MOUAD ADDOU</a></span>
+    <span>© <span id="year">2026</span> MOUAD ADDOU · Freelance digital marketer</span>
     <nav class="footer-links" aria-label="Footer">
       <a href="dashboard.html">Dashboard</a>
       <a href="docs/data-format.html">Data format</a>
-      <a href="https://mouadaddoux-cpu.github.io/mouad-analytics/">Website</a>
-      <a href="mailto:mousaddadoux@gmail.com">Email</a>
+      <a href="mailto:{{EMAIL}}">Email</a>
     </nav>
   </div>
 </footer>
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
+  // smooth anchor offset for the sticky header
+  document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var el = document.querySelector(a.getAttribute('href'));
+      if (!el) return;
+      e.preventDefault();
+      var y = el.getBoundingClientRect().top + window.scrollY - 74;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    });
+  });
 </script>
 </body>
 </html>
